@@ -1,0 +1,14 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, int k) {
+    //n 양꽃이, 음료수 k
+    // 12,000 , 2,000
+    // 10개당 -2000
+    int answer = 0;
+    answer = n*12000 + k*2000;
+    answer -= 2000 * (n/10);
+    return answer;
+}

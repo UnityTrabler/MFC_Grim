@@ -1,0 +1,89 @@
+#include <string>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+//주사위가 두 개씩 같은 값이 나오고, 나온 숫자를 각각 p, q(p ≠ q)라고 한다면 (p + q) × |p - q|점을 얻습니다.
+int case3(int p, int q){
+    return (p+q) * abs(p-q);
+}
+
+int solution(int a, int b, int c, int d) {
+    int answer = 0;
+    int cnt[7] = {0};
+    int arr[4] = {a,b,c,d};
+    
+    for(int i=0;i<4;i++){        
+        cnt[arr[i]]++; // cnt[6] ++             
+    }
+    
+    int max=0;
+    int min=6;
+    int maxCnt =0;
+    //cnt[1~6] 는 숫자 카운터임
+    for(int i=1;i<7;i++){
+        if(cnt[i] > maxCnt){
+            maxCnt = cnt[i];
+            max = i;
+        }
+        if(cnt[i] > 0 && i < min){//1~6의 숫자카운트 존재
+            min = i ;
+        }
+    }
+    
+    if(maxCnt == 4){
+        answer = 1111 * a;
+    }
+    //max는 1~6
+    //maxCnt는 1~4 카운트
+    else if(maxCnt == 3){
+        int q;
+        if(a != max)
+            q = a;
+        else if(b != max)
+            q = b;
+        else if(c != max)
+            q = c;
+        else
+            q = d;
+        answer = (10 * max + q) * (10 * max + q);
+    }
+    
+    else if(maxCnt == 2){
+        if(a == b){
+            if(c == d){//case3
+                answer = case3(a,c);//p(a,b),q(c,d)
+            }
+            else {//case4
+                answer = c * d;//p(a,b) q(c)*r(d)
+            }
+        }
+        
+        if(a == c){
+            if(b == d){//case3
+                answer = case3(a,b);//p(a,c),q(b,d)
+            }
+            else {//case4
+                answer = b * d;//p(a,c) q(b)*r(d)
+            }
+        }
+        
+        if(a == d){
+            if(c == b){//case3
+                answer = case3(a,c);//p(a,d),q(c,b)
+            }
+            else {//case4
+                answer = c * b;//p(a,d) q(c)*r(b)
+            }
+        }
+        
+    }
+    
+    else{
+        answer = min;
+    }
+
+    return answer;
+}
+
